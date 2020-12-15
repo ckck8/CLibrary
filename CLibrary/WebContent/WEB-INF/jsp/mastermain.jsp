@@ -31,6 +31,7 @@
         <input type="submit" value="全書籍一覧" class="btn btn-info btn-lg btn-block">
     </form>
     <br>
+
     <form action="/CLibrary/MasterServlet?target=rentAll" method="post">
         <input type="submit" value="貸出簿" class="btn btn-info btn-lg btn-block">
     </form>
