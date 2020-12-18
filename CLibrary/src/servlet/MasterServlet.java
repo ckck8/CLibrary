@@ -205,7 +205,7 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 				//検索結果0の場合、no_result.jspへフォワードする
 				if (count == 0) {
-					ra = request.getRequestDispatcher("/no_result.jsp");
+					ra = request.getRequestDispatcher("/WEB-INF/jsp/mastermain.jsp");
 					ra.forward(request, response);
 					return;
 				}

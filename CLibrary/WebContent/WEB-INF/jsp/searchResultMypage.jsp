@@ -33,16 +33,16 @@
 				<tbody>
 					<c:forEach var="searchLike" items="${searchResult}">
 						<tr>
-							<th scope="row">${searchLike.getBook_Id()}</th>
+							<th scope="row">${searchLike.getBookId()}</th>
 							<td>${searchLike.getJan()}</td>
-							<td>${searchLike.getBook_Name()}</td>
-							<td>${searchLike.getPur_Date()}</td>
+							<td>${searchLike.getBookName()}</td>
+							<td>${searchLike.getPurDate()}</td>
 							<td><form
 									action="/CLibrary/MypageServlet?target=rentKuramoto"
 									method="post">
 									<input type="hidden" name="rentBookId"
-										value="${searchLike.getBook_Id() }"> <input
-										type="hidden" name="rentStaffId" value="${sd.getStaff_Id() }">
+										value="${searchLike.getBookId() }"> <input
+										type="hidden" name="rentStaffId" value="${sd.getStaffId() }">
 									<input type="submit" value="借りる">
 								</form></td>
 						</tr>

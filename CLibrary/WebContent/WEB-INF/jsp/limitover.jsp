@@ -41,10 +41,10 @@
 		</tr>
 		<c:forEach var="a" items="${ limitOver }">
 			<tr>
-				<td>${a.getRent_Id() }</td>
-				<td>${a.getRent_Date() }</td>
-				<td>${a.getBook_Id() }</td>
-				<td>${a.getStaff_Id() }</td>
+				<td>${a.getRentId() }</td>
+				<td>${a.getRentDate() }</td>
+				<td>${a.getBookId() }</td>
+				<td>${a.getStaffId() }</td>
 			</tr>
 		</c:forEach>
 	</table>

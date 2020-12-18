@@ -39,7 +39,7 @@
 		</tr>
 		<c:forEach var="staffs" items="${staffsListAll }">
 			<tr>
-				<td>${staffs.getStaff_Id()}</td>
+				<td>${staffs.getStaffId()}</td>
 				<td>${staffs.getName()}</td>
 				<td>${staffs.getMail()}</td>
 				<td>${staffs.getPass() }</td>

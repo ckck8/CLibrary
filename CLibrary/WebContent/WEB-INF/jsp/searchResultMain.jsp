@@ -31,10 +31,10 @@
 				<tbody>
 					<c:forEach var="searchLike2" items="${searchResult2}">
 						<tr>
-							<th scope="row">${searchLike2.getBook_Id()}</th>
+							<th scope="row">${searchLike2.getBookId()}</th>
 							<td>${searchLike2.getJan()}</td>
-							<td>${searchLike2.getBook_Name()}</td>
-							<td>${searchLike2.getPur_Date()}</td>
+							<td>${searchLike2.getBookName()}</td>
+							<td>${searchLike2.getPurDate()}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

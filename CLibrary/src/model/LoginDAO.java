@@ -1,5 +1,6 @@
 package model;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import dto.BooksDTO;
 import dto.ForListDTO;
+import dto.HashDTO;
 import dto.StaffsDTO;
 
 public class LoginDAO {
@@ -41,7 +43,7 @@ public class LoginDAO {
 
 			//？に差し込む
 			pstm.setString(1, mail);//メール
-			pstm.setString(2, pass);//パスワード
+			pstm.setString(2, chgHash(pass));//パスワード
 
 			//SQL文の実行(ResultSetの取得)
 			ResultSet rs = pstm.executeQuery();
@@ -51,8 +53,11 @@ public class LoginDAO {
 				//各列のデータをDTOにセッターを使って保存
 				String mail1 = rs.getString("mail");//メールアドレス
 				String pass1 = rs.getString("pass");//パスワード
-				if (mail.equals(mail1) && pass.equals(pass1)) {
+
+				//入力されたハッシュ値とデータベースのハッシュ値が等しいかを確認する
+				if (mail.equals(mail1) && chgHash(pass).equals(pass1)) {
 					return true;
+
 				} else {
 					return false;
 				}
@@ -61,6 +66,7 @@ public class LoginDAO {
 			}
 		} catch (SQLException e) {
 			return false;
+
 		}
 	}
 
@@ -78,7 +84,7 @@ public class LoginDAO {
 
 			//？に差し込む
 			pstm.setString(1, mail);//メール
-			pstm.setString(2, pass);//パスワード
+			pstm.setString(2, chgHash(pass));//パスワード
 
 			//SQL文の実行(ResultSetの取得)
 			ResultSet rs = pstm.executeQuery();
@@ -86,12 +92,12 @@ public class LoginDAO {
 				//各列のデータをDTOにセッターを使って保存
 				int staff_id = rs.getInt("staff_id"); //ＩＤ
 				String mail1 = rs.getString("mail");//メールアドレス
-				String pass1 = rs.getString("pass");//パスワード
+//				String pass1 = rs.getString("pass");//パスワード
 				String name = rs.getString("name");//名前
 				int gender = rs.getInt("gender");//性別
 
 				//取り出したレコードを保存するためのDTOオブジェクトの生成
-				sd2 = new StaffsDTO(staff_id, mail1, pass1, name, gender);
+				sd2 = new StaffsDTO(staff_id, mail1, pass, name, gender);
 				return sd2;
 
 			} else {
@@ -112,7 +118,7 @@ public class LoginDAO {
 
 			//？に差し込む
 			pstm.setString(1, mail);//メールアドレス
-			pstm.setString(2, pass);//パスワード
+			pstm.setString(2, chgHash(pass));//パスワード
 			pstm.setString(3, name);//名前
 			pstm.setInt(4, gender);//性別
 
@@ -139,7 +145,7 @@ public class LoginDAO {
 			//？に差し込む
 			pstm.setString(1, name);//名前
 			pstm.setString(2, mail);//メール
-			pstm.setString(3, pass);//パスワード
+			pstm.setString(3, chgHash(pass));//パスワード
 			pstm.setInt(4, gender);//性別
 
 			//SQL文の実行(ResultSetの取得)
@@ -153,7 +159,7 @@ public class LoginDAO {
 				//各列のデータをDTOにセッターを使って保存
 				int staff_id = rs.getInt("staff_id"); //ＩＤ
 				mail = rs.getString("mail");//メールアドレス
-				pass = rs.getString("pass");//パスワード
+//				pass = rs.getString("pass");//パスワード
 				name = rs.getString("name");//名前
 				gender = rs.getInt("gender");//性別
 
@@ -177,14 +183,13 @@ public class LoginDAO {
 
 			//プレイスホルダーに差し込む
 			pstm.setString(1, mail);//メール
-			pstm.setString(2, pass);//パスワード
+			pstm.setString(2, chgHash(pass));//パスワード
 
 			//SQL文の実行(ResultSetの取得)
 			ResultSet rs = pstm.executeQuery();
 
 			//ArrayListの宣言
 			List<ForListDTO> bookList = new ArrayList<>();
-			bookList.clear();
 
 			//ResultSetのフェッチ処理
 			while (rs.next()) {
@@ -273,5 +278,20 @@ public class LoginDAO {
 		} catch (SQLException e) {
 			return null;
 		}
+	}
+	//**********************************************************
+	//HashDTOのインスタンスを取得するメソッド
+	//**********************************************************
+	public String chgHash(String pass) {
+
+		HashDTO hash=new HashDTO();
+		try {
+			return hash.toHash(pass);
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 }

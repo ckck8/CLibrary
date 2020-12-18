@@ -137,7 +137,7 @@ public class MypageServlet extends HttpServlet {
 		//返却ボタンのbook_idを取得
 		int rentBookId = Integer.parseInt(request.getParameter("rentBookId"));
 		StaffsDTO sdRent = (StaffsDTO) request.getSession().getAttribute("sd");
-		int rentStaffId = sdRent.getStaff_Id();
+		int rentStaffId = sdRent.getStaffId();
 
 		//ＤＡＯのメソッドを実行してbooleanで受け取る
 		boolean isRent = new MypageDAO().getCanRent(rentBookId, rentStaffId);

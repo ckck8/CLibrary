@@ -48,7 +48,7 @@
 						%>
 						<tr>
 							<th scope="row"><%=count%>位</th>
-							<td>${top5.getBook_Name()}</td>
+							<td>${top5.getBookName()}</td>
 							<td>${top5.getJan()}</td>
 						</tr>
 					</c:forEach>

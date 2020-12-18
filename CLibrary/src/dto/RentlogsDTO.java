@@ -43,19 +43,19 @@ public class RentlogsDTO implements Serializable{
 	//**********************************************************
 	//setter
 	//**********************************************************
-	public void setRentId() {
+	public void setRentId(int rentId) {
 		this.rentId=rentId;
 	}
-	public void setRentDate() {
+	public void setRentDate(String rentDate) {
 		this.rentDate=rentDate;
 	}
-	public void setReturnDate() {
+	public void setReturnDate(String returnDate) {
 		this.returnDate=returnDate;
 	}
-	public void setBookId() {
+	public void setBookId(int bookId) {
 		this.bookId=bookId;
 	}
-	public void setStaffId() {
+	public void setStaffId(int staffId) {
 		this.staffId=staffId;
 	}
 

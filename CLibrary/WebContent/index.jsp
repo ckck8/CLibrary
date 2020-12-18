@@ -23,8 +23,8 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item px-5 active"><a class="nav-link" href="/CLibrary/WelcomeServlet"><h4>Home</h4></a>
-				</li>
+				<li class="nav-item px-5 active"><a class="nav-link"
+					href="/CLibrary/WelcomeServlet"><h4>Home</h4></a></li>
 				<li class="nav-item mt-1"><form name="show" method="post"
 						action="/CLibrary/WelcomeServlet?target=select">
 						<a class="nav-link" href="javascript:show.submit()"><h5>書籍を探す</h5></a>
@@ -53,5 +53,13 @@
 			<p>書籍を借りるにはログイン、新規登録を行ってください</p>
 		</div>
 	</div>
+
+<!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js?20170919"></script>
+
+<script type="text/javascript" id="_-s-js-_" src="//satori.segs.jp/s.js?c=4717cdb6"></script>
+<div id="satori__creative_container">
+    <script id="-_-satori_creative-_-" src="//delivery.satr.jp/js/creative_set.js" data-key="c19347fd10e6d919"></script>
+</div>
 </body>
 </html>

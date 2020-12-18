@@ -39,14 +39,14 @@
 		</tr>
 		<c:forEach var="books" items="${booksListAll }">
 			<tr>
-				<td>${books.getBook_Id()}</td>
-				<td>${books.getBook_Name()}</td>
+				<td>${books.getBookId()}</td>
+				<td>${books.getBookName()}</td>
 				<td>${books.getJan()}</td>
-				<td>${books.getPur_Date() }</td>
-				<td><c:if test="${books.getRent_Check()==0}">
+				<td>${books.getPurDate() }</td>
+				<td><c:if test="${books.getRentCheck()==0}">
 				―
 				</c:if>
-				<c:if test="${books.getRent_Check()==1}">
+				<c:if test="${books.getRentCheck()==1}">
 				貸出中
 				</c:if></td>
 			</tr>
