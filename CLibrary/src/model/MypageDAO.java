@@ -128,7 +128,7 @@ public class MypageDAO {
 	}
 
 	//ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-	//借りるボタンを押した時の処理
+	//借りるボタンを押した時の処理★
 	//ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 	public boolean getCanRent(int rentBookId, int rentStaffId) {
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
@@ -139,9 +139,10 @@ public class MypageDAO {
 			pstm1.setString(1, getToday());//貸出日
 			pstm1.setInt(2, rentBookId);//書籍ＩＤ
 			pstm1.setInt(3, rentStaffId);//社員ＩＤ
+			System.out.println(rentBookId);
 			pstm2.setInt(1, rentBookId);//書籍id
 
-			//SQL文１の実行
+			//SQL文の実行
 			if (pstm1.executeUpdate() == 1 && pstm2.executeUpdate() == 1) {
 				return true;
 
@@ -149,6 +150,7 @@ public class MypageDAO {
 				return false;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

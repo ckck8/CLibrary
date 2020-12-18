@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td>
-                    <c:out value="${result.getBook_Name()}" />
+                    <c:out value="${result.getBookName()}" />
                 </td>
                 <td>
                     <c:out value="${result. getAuthor()}" />
@@ -44,7 +44,7 @@
                 </td>
                 <!--                <td style="width:600px;border:1px solid #000;word-break: break-all;">-->
                 <td>
-                    <img src="<c:out value=" ${result. getImage()}" />">
+                    <img src="<c:out value=" ${result.getImage()}" />">
                 </td>
                 <td>
                     <c:out value="${result.getDescription()}" />

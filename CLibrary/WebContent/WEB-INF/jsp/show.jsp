@@ -62,7 +62,7 @@
 				<div class="bookContent mb-3 overflow-sc"
 					style="padding: 0; width: 257px; margin-right: 14px;">
 					<div class="bookTitle p-2">
-						<c:out value="${bookData.getBook_Name()}" />
+						<c:out value="${bookData.getBookName()}" />
 					</div>
 					<div class="bookImage">
 						<img alt="" src="<c:out value="${bookData.getImage()}" />">
