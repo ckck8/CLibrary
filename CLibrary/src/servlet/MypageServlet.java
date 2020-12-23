@@ -1,9 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,19 +33,27 @@ public class MypageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//ＤＢ接続用
-		final String URL = "jdbc:mysql://172.16.71.116:3306/clibrary?serverTimezone=JST";
-		final String USER = "team1";
-		final String PASS = "CLibrary";
+		// URLエンコーディングの文字コードを設定
+		request.setCharacterEncoding("utf-8");
+
+		if (request.getSession().getAttribute("sd") != null) {
+			doForward(request, response, "/WEB-INF/jsp/booksearchMypage.jsp");
+		} else {
+			doForward(request, response, "/WEB-INF/jsp/networkfaile.jsp");
+		}
+
+		//		//ＤＢ接続用
+		//		final String URL = "jdbc:mysql://172.16.71.116:3306/clibrary?serverTimezone=JST";
+		//		final String USER = "team1";
+		//		final String PASS = "CLibrary";
 
 		// DB接続処理は例外処理が必須
-		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			doForward(request, response, "/WEB-INF/jsp/booksearchMypage.jsp");
-
-		} catch (SQLException e) {
-			// 接続に失敗した場合、fall.jspファイルにフォワード
-			doForward(request, response,"/WEB-INF/jsp/networkfaile.jsp");
-		}
+		//		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+		//
+		//		} catch (SQLException e) {
+		//			// 接続に失敗した場合、fall.jspファイルにフォワード
+		//
+		//		}
 	}
 
 	/**

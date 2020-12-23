@@ -42,15 +42,24 @@
 				class="btn btn-border-shadow btn-border-shadow--radius">借りる本を探す</a>
 		</div>
 		<div class="mypage_return_book mb-5">
-			<c:if test="${rentNowList !=null}">
-
-				<br>
-				<!-- <form action="/CLibrary/MypageServlet?target=rent" method="post"> -->
 
 
+			<br>
+			<!-- <form action="/CLibrary/MypageServlet?target=rent" method="post"> -->
 
 
-				<h2>貸し出し中一覧</h2>
+
+			<c:if test="${rentNowList.size()==0}">
+				<div class="container">
+					<div class="message">
+						<h2>現在借りている書籍はありません</h2>
+
+					</div>
+				</div>
+			</c:if>
+
+			<c:if test="${rentNowList.size()!=0}">
+				<h2>借りている書籍一覧</h2>
 
 				<div class="table-responsive">
 					<table class="table table-striped">

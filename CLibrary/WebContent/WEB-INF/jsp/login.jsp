@@ -23,6 +23,9 @@
 	<div class="container">
 		<div class="login_message pt-4 pb-4">
 			<h2>ログインＩＤ（メールアドレス）と パスワードを入力して下さい。</h2>
+			<c:if test="${errMsg!=null}">
+			<h5 style="color:red">${errMsg}</h5>
+			</c:if>
 		</div>
 		<div class="login_form">
 			<form action="/CLibrary/LoginServlet?target=login" method="post">

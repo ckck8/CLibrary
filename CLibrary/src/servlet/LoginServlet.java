@@ -131,13 +131,17 @@ public class LoginServlet extends HttpServlet {
 
 					//ログイン認証に失敗した時**********************************************
 				} else {
-					//ログインに失敗しましたにフォワード先を指定
-					forwardPath = "/WEB-INF/jsp/loginfaile.jsp";
+					//エラーメッセージを設定
+					setErrMsg(request, response, "ログインに失敗しました。もう一度入力して下さい。");
+					//ログイン画面にフォワード先を指定
+					forwardPath = "/WEB-INF/jsp/login.jsp";
 				}
 			}
 		} else {
-			//ログインに失敗しましたにフォワード先を指定
-			forwardPath = "/WEB-INF/jsp/loginfaile.jsp";
+			//エラーメッセージを設定
+			setErrMsg(request, response, "ログインに失敗しました");
+			//ログイン画面にフォワード先を指定
+			forwardPath = "/WEB-INF/jsp/login.jsp";
 		}
 		//フォワードを実行するメソッド
 		doForward(request, response, forwardPath);
@@ -185,16 +189,16 @@ public class LoginServlet extends HttpServlet {
 					top5(request, response);
 
 					//新規登録成功にフォワード
-					forwardPath = "/WEB-INF/jsp/success.jsp";
+					forwardPath = "/WEB-INF/jsp/registersuccess.jsp";
 
 				} else {
-					//登録失敗画面にフォワード（初期値のまま）
+					forwardPath=setRegisterErr(request, response);//失敗した時
 				}
 			} else {
-				//登録失敗画面にフォワード（初期値のまま）
+				forwardPath=setRegisterErr(request, response);//失敗した時
 			}
 		} else {
-			//登録失敗画面にフォワード（初期値のまま）
+			forwardPath=setRegisterErr(request, response);//失敗した時
 		}
 		//フォワードを実行するメソッド
 		doForward(request, response, forwardPath);
@@ -264,7 +268,7 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		//現在借りている本リストを取得するdaoのメソッドを実行
-		List<ForListDTO>canRentList = new LoginDAO().getCanRentListDAO();
+		List<ForListDTO> canRentList = new LoginDAO().getCanRentListDAO();
 
 		//ログインユーザーのStaffsDTOインスタンスをセッションスコープに保存
 		request.getSession().setAttribute("canRentList", canRentList);
@@ -286,10 +290,30 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		//daoのメソッドを実行
-		List<BooksDTO>top5List = new LoginDAO().getTop5();
+		List<BooksDTO> top5List = new LoginDAO().getTop5();
 
 		//人気ランキングTop5の一覧をセッションスコープに保存
 		request.getSession().setAttribute("top5List", top5List);
 	}
 
+	//**********************************************************
+	//エラーメッセージをスコープに保存
+	//**********************************************************
+	public void setErrMsg(HttpServletRequest request, HttpServletResponse response, String errMsg)
+			throws ServletException, IOException {
+		//リクエストスコープにエラーメッセージを保存
+		request.setAttribute("errMsg", errMsg);
+
+	}
+
+	//**********************************************************
+	//新規登録に失敗した時のメソッド
+	//**********************************************************
+	public String setRegisterErr(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//エラーメッセージを設定
+		setErrMsg(request, response, "新規登録に失敗しました。もう一度入力して下さい。");
+		//フォワードを実行するメソッド
+		return "/WEB-INF/jsp/register.jsp";
+	}
 }

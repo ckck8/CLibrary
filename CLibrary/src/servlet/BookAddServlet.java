@@ -33,17 +33,16 @@ public class BookAddServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String action = request.getParameter("action");
+		String target = request.getParameter("target");
 
-		//フォワード先を指定（初期値をaddfailure.jspとする）
-		String forwardPath = "/WEB-INF/jsp/addfailure.jsp";
+		//フォワード先を指定（初期値をmaster.jspとする）
+		String forwardPath = "/WEB-INF/jsp/master.jsp";
 
 		//分岐する**********************************************************
-		switch (action) {
-		case "done":
+		switch (target) {
+		case "bookadd":
 			// データベース処理を行うDAOを生成
-			BooksDTO bookdata = new BooksDTO();
-			bookdata = (BooksDTO) request.getSession().getAttribute("result");
+			 BooksDTO bookdata = (BooksDTO) request.getSession().getAttribute("result");
 
 			// DAO内に定義されているデータ登録用のメソッドを実行し、その結果を保存
 			boolean isInsert = new MasterDAO().insert(bookdata);
@@ -52,7 +51,8 @@ public class BookAddServlet extends HttpServlet {
 			if (isInsert) {
 				forwardPath = "/WEB-INF/jsp/addsuccess.jsp";
 			} else {
-				//失敗したらフォワード先は初期値のまま
+				//エラーメッセージを設定
+				setErrMsg(request, response, "登録に失敗しました。内容を確認して下さい。");
 			}
 			break;
 		}
@@ -80,5 +80,14 @@ public class BookAddServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 
 	}
+	//**********************************************************
+		//エラーメッセージをスコープに保存
+		//**********************************************************
+		public void setErrMsg(HttpServletRequest request, HttpServletResponse response, String errMsg)
+				throws ServletException, IOException {
+			//リクエストスコープにエラーメッセージを保存
+			request.setAttribute("errMsg", errMsg);
+
+		}
 
 }
