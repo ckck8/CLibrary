@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import dto.BooksDTO;
 import dto.EnvSet;
 import dto.ForListDTO;
-import dto.RentlogsDTO;
 import dto.StaffsDTO;
 import model.MasterDAO;
 
@@ -59,23 +58,22 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String action = request.getParameter("action");
-
-		if (action.equals("done")) {
-
-			// データベース処理を行うDAOを生成
-			//MasterDAO MasterDAO = new MasterDAO();
-			List<RentlogsDTO> limitOverList = new ArrayList<>();
-			limitOverList = new MasterDAO().getSearch();
-			request.getSession().setAttribute("limitOver", limitOverList);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/limitover.jsp");
-			dispatcher.forward(request, response);
-
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/mastermain.jsp");
-			rd.forward(request, response);
-
-		}
+//		String target = request.getParameter("target");
+//
+//		if (target.equals("done")) {
+//
+//			// データベース処理を行うDAOを生成
+//			List<RentlogsDTO> limitOverList = new MasterDAO().getSearch();
+//			request.getSession().setAttribute("limitOver", limitOverList);
+//
+//			//フォワードするメソッドを実行
+//			doForward(request, response, "/WEB-INF/jsp/limitover.jsp");
+//
+//		} else {
+//			//フォワードするメソッドを実行
+//			doForward(request, response, "/WEB-INF/jsp/mastermain.jsp");
+//
+//		}
 	}
 
 	/**
@@ -91,8 +89,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 		//actionパラメーターを受け取る
 		String target = request.getParameter("target");
 
-		int book_id = 0;
-
 		switch (target) {
 		//**********************************************************
 		//本の登録ボタンが押された時
@@ -100,11 +96,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 		case "bookinput":
 			String jan = request.getParameter("isbn");
 			String pur_date = request.getParameter("pur_date");
-			//String pur_date=pur_date0.replace("/", "");
-			int rent_check = 0;
-
-			//JSPページを呼び出すためのRequestDispatcher
-			RequestDispatcher ra = null;
 
 			//gooleへ接続するため
 			URL url = null;
@@ -121,14 +112,13 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 				// エラーメッセージをセッションスコープに保存
 				// 入力用フォームに再度リダイレクト
 				response.sendRedirect("/error.jsp");
-				ra = request.getRequestDispatcher("/error.jsp");
-				ra.forward(request, response);
+				//フォワードするメソッドを実行
+				doForward(request, response,"/error.jsp");
 
 				// book_id列にデータがある場合
 			} else {
 				// セッションスコープに保存しているエラーメッセージを削除
 				session.removeAttribute("error");
-
 				requestUrl = GOOGLE_BOOKS_API_ISBN + jan;
 			}
 
@@ -144,8 +134,8 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 			} catch (Exception e) {
 				//例外発生時、error.jspへフォワードする
 				request.setAttribute("error", e.toString());
-				ra = request.getRequestDispatcher("/error.jsp");
-				ra.forward(request, response);
+				//フォワードするメソッドを実行
+				doForward(request, response, "/error.jsp");
 				return;
 			}
 
@@ -157,8 +147,9 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 				//レスポンスコードが200以外の場合は、error.jspへフォワードする
 				request.setAttribute("error", "Google Books API　へのリクエストが失敗しました。レスポンスコード：" + responseCode);
-				ra = request.getRequestDispatcher("/error.jsp");
-				ra.forward(request, response);
+
+				//フォワードするメソッドを実行
+				doForward(request, response, "/error.jsp");
 				return;
 			}
 
@@ -205,8 +196,12 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 				//検索結果0の場合、no_result.jspへフォワードする
 				if (count == 0) {
-					ra = request.getRequestDispatcher("/WEB-INF/jsp/mastermain.jsp");
-					ra.forward(request, response);
+
+					//エラーメッセージを設定
+					setErrMsg(request, response, "ISBNによる検索結果　0件　※もう一度やり直して下さい。");
+
+					//フォワードするメソッドを実行
+					doForward(request, response, "/WEB-INF/jsp/master.jsp");
 					return;
 				}
 
@@ -242,7 +237,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 				}
 				//imageLinksの取得
 				//JSONArray imageLinks = null;
-
 				String image = null;
 				try {
 					//imageLinks = volumeInfo.getJSONArray("imageLinks");
@@ -273,6 +267,8 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 				}
 
 				//検索結果データの追加**********************************************************
+				int book_id = 0;
+				int rent_check = 0;
 				BooksDTO BooksDTO1 = new BooksDTO(book_id, jan, book_name, pur_date, rent_check, image,
 						publisher, author, description);
 
@@ -282,14 +278,12 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 			} catch (Exception e) {
 				//例外発生時、error.jspへフォワードする
 				request.setAttribute("error", e.toString());
-				ra = request.getRequestDispatcher("/error.jsp");
-				ra.forward(request, response);
+				//フォワードするメソッドを実行
+				doForward(request, response, "/error.jsp");
 				return;
 			}
-
-			//isbn_result.jspへフォワードする
-			ra = request.getRequestDispatcher("/WEB-INF/jsp/confirm.jsp");
-			ra.forward(request, response);
+			//フォワードするメソッドを実行
+			doForward(request, response, "/WEB-INF/jsp/confirm.jsp");
 			break;
 
 		//**********************************************************
@@ -305,7 +299,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 			//フォワードするメソッドを実行
 			doForward(request, response, "/WEB-INF/jsp/stafflist.jsp");
-
 			break;
 
 		//**********************************************************
@@ -329,7 +322,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 			//フォワードするメソッドを実行
 			doForward(request, response, "/WEB-INF/jsp/showbooksall.jsp");
-
 			break;
 
 		//**********************************************************
@@ -345,7 +337,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 			//フォワードするメソッドを実行
 			doForward(request, response, "/WEB-INF/jsp/rentall.jsp");
-
 			break;
 
 		//**********************************************************
@@ -361,7 +352,6 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 
 			//フォワードするメソッドを実行
 			doForward(request, response, "/WEB-INF/jsp/rentnow.jsp");
-
 			break;
 
 		//**********************************************************
@@ -388,6 +378,14 @@ public class MasterServlet extends HttpServlet implements EnvSet {
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
 		dispatcher.forward(request, response);
+	}
 
+	//**********************************************************
+	//エラーメッセージをスコープに保存
+	//**********************************************************
+	public void setErrMsg(HttpServletRequest request, HttpServletResponse response, String errMsg)
+			throws ServletException, IOException {
+		//リクエストスコープにエラーメッセージを保存
+		request.setAttribute("errMsg", errMsg);
 	}
 }

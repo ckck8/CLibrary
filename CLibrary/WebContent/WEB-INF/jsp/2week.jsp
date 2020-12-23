@@ -59,5 +59,9 @@
 			onclick="location.href='/CLibrary/WelcomeServlet'">トップ画面へ</button>
 	</div>
 	<!---------------------------------------------------------------------------------->
+	<center>
+		<font size="2"> Copyright (c) 2020 ICTエンジニア科1班 All Rights
+			Reserved. </font>
+	</center>
 </body>
 </html>

@@ -26,6 +26,9 @@
 				<h2>新規登録</h2>
 			</div>
 			<h2>氏名、ログインＩＤ（メールアドレス）、パスワード、性別を入力して下さい。</h2>
+			<c:if test="${errMsg!=null}">
+			<h5 style="color:red">${errMsg}</h5>
+			</c:if>
 		</div>
 		<div class="login_form">
 			<form action="/CLibrary/LoginServlet?target=register" method="post">

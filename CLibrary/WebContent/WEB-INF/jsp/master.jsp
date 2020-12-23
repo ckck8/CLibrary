@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -25,6 +26,9 @@
     <div class="container">
         <div class="login_message pt-4 pb-4">
             <h2>ISBN番号と購入日を入力して下さい。</h2>
+            <c:if test="${errMsg!=null}">
+			<h5 style="color:red">${errMsg}</h5>
+			</c:if>
         </div>
         <div class="login_form">
             <form action="/CLibrary/MasterServlet?target=bookinput" method="post">

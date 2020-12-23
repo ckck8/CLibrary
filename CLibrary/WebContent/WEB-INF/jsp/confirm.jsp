@@ -51,10 +51,10 @@
                 </td>
             </tr>
         </table><br>
-        <h2>上記の情報で登録してよいですか</h2>
+        <h2>上記の書籍を登録しますか？</h2>
         <div class="result">
             <div>
-                <a href="/CLibrary/BookAddServlet?action=done">はい</a>
+                <a href="/CLibrary/BookAddServlet?target=bookadd">はい</a>
             </div>
             <div>
                 <a href="/CLibrary/ToMaster">いいえ</a>
